@@ -1,0 +1,56 @@
+---
+- name: Deploy containerized e-commerce stack
+  hosts: web
+  become: true
+  gather_facts: true
+  vars:
+    app_dir: /opt/ecommerce
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install Docker engine, Compose plugin and Git
+      apt:
+        name:
+          - docker.io
+          - docker-compose-v2
+          - git
+        state: present
+
+    - name: Ensure Docker service is running and enabled
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Create application directory
+      file:
+        path: "{{ app_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Copy application source to the server
+      copy:
+        src: "{{ item }}"
+        dest: "{{ app_dir }}/"
+      loop:
+        - "{{ playbook_dir }}/../app"
+        - "{{ playbook_dir }}/../nginx"
+        - "{{ playbook_dir }}/../docker-compose.yml"
+
+    - name: Build images and start containers
+      command:
+        cmd: docker compose up -d --build
+        chdir: "{{ app_dir }}"
+
+    - name: Wait for the app to answer on port 80
+      uri:
+        url: "http://localhost/health"
+        status_code: 200
+      register: health
+      retries: 20
+      delay: 6
+      until: health.status == 200

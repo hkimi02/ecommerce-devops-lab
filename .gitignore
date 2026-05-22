@@ -1,0 +1,18 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+crash.log
+
+# SSH keys / secrets - never commit these
+*.pem
+key.pem
+*.key
+
+# Node
+node_modules/
+
+# Ansible
+inventory.ini

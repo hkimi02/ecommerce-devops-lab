@@ -1,0 +1,13 @@
+{
+  "name": "ecommerce-app",
+  "version": "1.0.0",
+  "description": "Minimal e-commerce store for the DevOps CI/CD lab",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0"
+  }
+}

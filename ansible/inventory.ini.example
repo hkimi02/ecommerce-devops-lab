@@ -1,0 +1,7 @@
+# Sample inventory for MANUAL testing from your workstation.
+# The CI/CD pipeline generates this file automatically from Terraform outputs.
+# Replace the IPs with the values from: terraform output instance_public_ips
+
+[web]
+PUBLIC_IP_1 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/ecommerce-lab
+PUBLIC_IP_2 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/ecommerce-lab
