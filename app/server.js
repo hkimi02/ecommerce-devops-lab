@@ -14,18 +14,16 @@ async function connectAndSeed() {
   await client.connect();
   db = client.db(DB_NAME);
   const products = db.collection("products");
-  const count = await products.countDocuments();
-  if (count === 0) {
-    await products.insertMany([
-      { name: "Laptop Pro", price: 1200, emoji: "💻", desc: "High-performance 15\" laptop for professionals" },
-      { name: "Smartphone X", price: 800, emoji: "📱", desc: "Latest flagship with 108MP camera" },
-      { name: "Wireless Headphones", price: 250, emoji: "🎧", desc: "Noise-cancelling, 40h battery life" },
-      { name: "Smart Watch", price: 399, emoji: "⌚", desc: "Health tracking & GPS built-in" },
-      { name: "Mechanical Keyboard", price: 150, emoji: "⌨️", desc: "RGB backlit, tactile switches" },
-      { name: "4K Monitor", price: 550, emoji: "🖥️", desc: "27\" IPS panel, 144Hz refresh rate" },
-    ]);
-    console.log("Seeded products into MongoDB");
-  }
+  await products.deleteMany({});
+  await products.insertMany([
+    { name: "Laptop Pro", price: 1200, emoji: "💻", desc: "High-performance 15\" laptop for professionals" },
+    { name: "Smartphone X", price: 800, emoji: "📱", desc: "Latest flagship with 108MP camera" },
+    { name: "Wireless Headphones", price: 250, emoji: "🎧", desc: "Noise-cancelling, 40h battery life" },
+    { name: "Smart Watch", price: 399, emoji: "⌚", desc: "Health tracking & GPS built-in" },
+    { name: "Mechanical Keyboard", price: 150, emoji: "⌨️", desc: "RGB backlit, tactile switches" },
+    { name: "4K Monitor", price: 550, emoji: "🖥️", desc: "27\" IPS panel, 144Hz refresh rate" },
+  ]);
+  console.log("Seeded products into MongoDB");
   console.log("Connected to MongoDB");
 }
 
